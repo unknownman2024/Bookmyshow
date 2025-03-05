@@ -15,7 +15,7 @@
             data.movies.forEach(movie => {
                 const presales = movie.ticket_sales
                     .filter(d => d.hasOwnProperty('days_before_release'))
-                    .reduce((acc, day) => acc + parseInt(day.total.replace('K', '')), 0);
+                    .reduce((acc, day) => acc + parseInt(day.no_of_tickets.replace('K', '')), 0);
 
                 const movieCard = `
                     <div class="bg-white rounded-lg shadow-md p-4 m-4">

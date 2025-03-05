@@ -1,72 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket Sales Parser</title>
-</head>
-<body>
-    <h2>Enter Ticket Sales Data</h2>
-    <textarea id="inputData" rows="10" cols="50"></textarea>
-    <br>
-    <button onclick="parseData()">Generate JSON</button>
-    <h3>Output JSON:</h3>
-    <pre id="output"></pre>
+import json
+from datetime import datetime
+
+def parse_ticket_sales(data, release_date):
+    release_date_obj = datetime.strptime(release_date, "%d.%m.%y")
+    ticket_sales = []
     
-    <script>
-        function parseData() {
-            const rawData = document.getElementById("inputData").value.trim();
-            const lines = rawData.split("\n");
-            const releaseDate = new Date("2024-08-15");
-            let ticketSales = [];
-            
-            lines.forEach(line => {
-                let parts = line.split(/\s+/);
-                if (parts.length >= 6) {
-                    // Extract before release data
-                    let daysBeforeRelease = parseInt(parts[0]);
-                    let dateBefore = parts[1];
-                    let noOfTicketsBefore = parts[3].replace(/\s/g, "");
-                    let totalBefore = parts[4].replace(/\s/g, "");
-                    
-                    ticketSales.push({
-                        date: dateBefore,
-                        no_of_tickets: noOfTicketsBefore,
-                        total: totalBefore,
-                        days_before_release: daysBeforeRelease
-                    });
-                    
-                    // Extract after release data
-                    let daysAfterRelease = parseInt(parts[5]);
-                    let dateAfter = parts[6];
-                    let noOfTicketsAfter = parts[8].replace(/\s/g, "");
-                    let totalAfter = parts[9].replace(/\s/g, "");
-                    
-                    ticketSales.push({
-                        date: dateAfter,
-                        no_of_tickets: noOfTicketsAfter,
-                        total: totalAfter,
-                        days_after_release: daysAfterRelease
-                    });
-                }
-            });
-            
-            ticketSales.sort((a, b) => {
-                let dateA = new Date(a.date.split(".").reverse().join("-"));
-                let dateB = new Date(b.date.split(".").reverse().join("-"));
-                return dateA - dateB;
-            });
-            
-            const result = {
-                movie_name: "Stree 2",
-                release_date: "2024-08-15",
-                poster: "https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/stree-2-et00312345-1737184762.jpg",
-                peak_hour: "7 PM - 9 PM",
-                ticket_sales: ticketSales
-            };
-            
-            document.getElementById("output").textContent = JSON.stringify(result, null, 4);
-        }
-    </script>
-</body>
-</html>
+    for entry in data:
+        day, date, _, no_of_tickets, total, day_after, date_after, no_of_tickets_after, total_after = entry
+        
+        # Normalize values
+        no_of_tickets = no_of_tickets.replace(" ", "")
+        total = total.replace(" ", "")
+        no_of_tickets_after = no_of_tickets_after.replace(" ", "")
+        total_after = total_after.replace(" ", "")
+        
+        date_obj = datetime.strptime(date, "%d.%m.%y")
+        days_before_release = (release_date_obj - date_obj).days if date_obj < release_date_obj else None
+        
+        date_after_obj = datetime.strptime(date_after, "%d.%m.%y")
+        days_after_release = (date_after_obj - release_date_obj).days + 1 if date_after_obj >= release_date_obj else None
+        
+        if days_before_release is not None:
+            ticket_sales.append({
+                "date": date,
+                "no_of_tickets": no_of_tickets,
+                "total": total,
+                "days_before_release": days_before_release
+            })
+        
+        if days_after_release is not None:
+            ticket_sales.append({
+                "date": date_after,
+                "no_of_tickets": no_of_tickets_after,
+                "total": total_after,
+                "days_after_release": days_after_release
+            })
+    
+    # Sort data: descending for days_before_release, ascending for days_after_release
+    ticket_sales.sort(key=lambda x: (x.get("days_before_release", float("inf")), x.get("days_after_release", -float("inf"))), reverse=True)
+    
+    return ticket_sales
+
+# Example input data
+data = [
+    (5, "10.08.24", "SAT", "47 K", "47 K", 27, "10.09.24", "47 K", "9788 K"),
+    (4, "11.08.24", "SUN", "81 K", "128 K", 28, "11.09.24", "44 K", "9833 K"),
+]
+
+release_date = "15.08.24"
+
+output = {
+    "movie_name": "Stree 2",
+    "release_date": "2024-08-15",
+    "poster": "https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/stree-2-et00312345-1737184762.jpg",
+    "peak_hour": "7 PM - 9 PM",
+    "ticket_sales": parse_ticket_sales(data, release_date)
+}
+
+print(json.dumps(output, indent=4))

@@ -3,74 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket Sales to JSON</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        textarea { width: 100%; height: 200px; }
-        input, button { margin-top: 10px; display: block; }
-    </style>
+    <title>Movie Ticket Sales JSON Converter</title>
 </head>
 <body>
-    <h2>Convert Ticket Sales Data to JSON</h2>
-    <label>Movie Name: <input type="text" id="movie_name" value="Stree 2"></label>
-    <label>Release Date: <input type="date" id="release_date" value="2024-08-15"></label>
-    <label>Poster URL: <input type="text" id="poster" value="https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/stree-2-et00312345-1737184762.jpg"></label>
-    <label>Peak Hour: <input type="text" id="peak_hour" value="7 PM - 9 PM"></label>
-    <label>Paste Ticket Sales Data:</label>
-    <textarea id="input_data"></textarea>
-    <button onclick="convertToJSON()">Convert</button>
-    <h3>JSON Output:</h3>
-    <pre id="output"></pre>
-
+    <h2>Enter Movie Data</h2>
+    <label>Movie Name: <input type="text" id="movie_name" value="Stree 2"></label><br>
+    <label>Release Date: <input type="date" id="release_date" value="2024-08-15"></label><br>
+    <label>Poster URL: <input type="text" id="poster" value="https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/stree-2-et00312345-1737184762.jpg"></label><br>
+    <label>Peak Hour: <input type="text" id="peak_hour" value="7 PM - 9 PM"></label><br>
+    <textarea id="input_data" rows="10" cols="50" placeholder="Paste your ticket sales data here..."></textarea><br>
+    <button onclick="convertToJSON()">Convert to JSON</button>
+    <h3>Output JSON:</h3>
+    <pre id="output_json"></pre>
+    
     <script>
         function convertToJSON() {
-            const movieName = document.getElementById('movie_name').value;
-            const releaseDate = document.getElementById('release_date').value;
-            const poster = document.getElementById('poster').value;
-            const peakHour = document.getElementById('peak_hour').value;
-            const inputData = document.getElementById('input_data').value;
+            const movieName = document.getElementById("movie_name").value;
+            const releaseDate = document.getElementById("release_date").value;
+            const poster = document.getElementById("poster").value;
+            const peakHour = document.getElementById("peak_hour").value;
+            const inputText = document.getElementById("input_data").value.trim();
             
-            const lines = inputData.split('\n').map(line => line.trim()).filter(line => line);
+            const lines = inputText.split(/\n|\t/);
             let ticketSales = [];
             let releaseDateObj = new Date(releaseDate);
             
-            lines.forEach(line => {
-                let parts = line.split(/\s+/);
-                if (parts.length >= 5) {
-                    let day = parseInt(parts[0]);
-                    let date = parts[1];
-                    let dayOfWeek = parts[2];
-                    let noOfTickets = parts[3].replace(/\s+/g, ''); // Remove spaces within numbers
-                    let total = parts[4].replace(/\s+/g, '');
-                    
-                    let dateObj = new Date(date.split('.').reverse().join('-'));
-                    let diffDays = (releaseDateObj - dateObj) / (1000 * 60 * 60 * 24);
-                    
-                    let entry = {
-                        date: date,
-                        no_of_tickets: noOfTickets,
-                        total: total
-                    };
-                    
-                    if (diffDays > 0) {
-                        entry.days_before_release = diffDays;
-                    } else {
-                        entry.days_after_release = Math.abs(diffDays) + 1;
-                    }
-                    
-                    ticketSales.push(entry);
+            for (let i = 1; i < lines.length; i++) {
+                const parts = lines[i].split(/\s+/);
+                if (parts.length < 5) continue;
+                
+                let day = parseInt(parts[0]);
+                let date = parts[1];
+                let dayOfWeek = parts[2];
+                let noOfTickets = parts[3] + (parts[4] === 'K' ? 'K' : '');
+                let total = parts[5] + (parts[6] === 'K' ? 'K' : '');
+                
+                let ticketEntry = {
+                    date: date,
+                    no_of_tickets: noOfTickets,
+                    total: total
+                };
+                
+                let dataDate = new Date("20" + date.split(".").reverse().join("-"));
+                let diffDays = Math.floor((dataDate - releaseDateObj) / (1000 * 60 * 60 * 24));
+                
+                if (diffDays < 0) {
+                    ticketEntry.days_before_release = Math.abs(diffDays);
+                } else {
+                    ticketEntry.days_after_release = diffDays + 1;
                 }
-            });
-
-            const jsonOutput = {
+                
+                ticketSales.push(ticketEntry);
+            }
+            
+            const jsonData = {
                 movie_name: movieName,
                 release_date: releaseDate,
                 poster: poster,
                 peak_hour: peakHour,
                 ticket_sales: ticketSales
             };
-
-            document.getElementById('output').textContent = JSON.stringify(jsonOutput, null, 4);
+            
+            document.getElementById("output_json").textContent = JSON.stringify(jsonData, null, 4);
         }
     </script>
 </body>

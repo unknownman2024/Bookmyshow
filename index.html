@@ -29,11 +29,11 @@
             lastSale = parseFloat(lastSale.replace('K', '').replace('M', '')) * 
                        (lastSale.includes('M') ? 1000000 : (lastSale.includes('K') ? 1000 : 1));
 
-            // Format numbers in K/M
+            // Format numbers in K/M with up to 3 decimal places
             const formatNumber = (num) => {
-                if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
-                if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-                return num;
+                if (num >= 1000000) return (num / 1000000).toFixed(3).replace(/\.?0+$/, '') + 'M';
+                if (num >= 1000) return (num / 1000).toFixed(3).replace(/\.?0+$/, '') + 'K';
+                return num.toString();
             };
 
             const poster = movie.poster || 'default-poster.jpg'; // Fallback image
@@ -58,6 +58,7 @@
 }
 
 window.onload = fetchMovies;
+
 
     </script>
 </head>

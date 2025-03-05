@@ -1588,6 +1588,129 @@
                     "days_after_release": 34
                 }
             ]
+        },
+     
+        {
+            "movie_name": "Game Changer",
+            "release_date": "10.01.25",
+            "poster": "https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/game-changer-et00311772-1731311322.jpg",
+            "peak_hour": "36.74K",
+            "ticket_sales": [
+                {
+                    "date": "06.01.25",
+                    "no_of_tickets": "6K",
+                    "total": "6K",
+                    "days_before_release": 4
+                },
+                {
+                    "date": "07.01.25",
+                    "no_of_tickets": "18K",
+                    "total": "25K",
+                    "days_before_release": 3
+                },
+                {
+                    "date": "08.01.25",
+                    "no_of_tickets": "130K",
+                    "total": "155K",
+                    "days_before_release": 2
+                },
+                {
+                    "date": "09.01.25",
+                    "no_of_tickets": "620K",
+                    "total": "775K",
+                    "days_before_release": 1
+                },
+                {
+                    "date": "10.01.25",
+                    "no_of_tickets": "399K",
+                    "total": "1174K",
+                    "days_after_release": 1
+                },
+                {
+                    "date": "11.01.25",
+                    "no_of_tickets": "316K",
+                    "total": "1490K",
+                    "days_after_release": 2
+                },
+                {
+                    "date": "12.01.25",
+                    "no_of_tickets": "235K",
+                    "total": "1725K",
+                    "days_after_release": 3
+                },
+                {
+                    "date": "13.01.25",
+                    "no_of_tickets": "130K",
+                    "total": "1855K",
+                    "days_after_release": 4
+                },
+                {
+                    "date": "14.01.25",
+                    "no_of_tickets": "135K",
+                    "total": "1991K",
+                    "days_after_release": 5
+                },
+                {
+                    "date": "15.01.25",
+                    "no_of_tickets": "73K",
+                    "total": "2064K",
+                    "days_after_release": 6
+                },
+                {
+                    "date": "16.01.25",
+                    "no_of_tickets": "45K",
+                    "total": "2109K",
+                    "days_after_release": 7
+                },
+                {
+                    "date": "17.01.25",
+                    "no_of_tickets": "28K",
+                    "total": "2137K",
+                    "days_after_release": 8
+                },
+                {
+                    "date": "18.01.25",
+                    "no_of_tickets": "26K",
+                    "total": "2163K",
+                    "days_after_release": 9
+                },
+                {
+                    "date": "19.01.25",
+                    "no_of_tickets": "23K",
+                    "total": "2186K",
+                    "days_after_release": 10
+                },
+                {
+                    "date": "20.01.25",
+                    "no_of_tickets": "8K",
+                    "total": "2194K",
+                    "days_after_release": 11
+                },
+                {
+                    "date": "21.01.25",
+                    "no_of_tickets": "7K",
+                    "total": "2201K",
+                    "days_after_release": 12
+                },
+                {
+                    "date": "22.01.25",
+                    "no_of_tickets": "6K",
+                    "total": "2207K",
+                    "days_after_release": 13
+                },
+                {
+                    "date": "23.01.25",
+                    "no_of_tickets": "5K",
+                    "total": "2213K",
+                    "days_after_release": 14
+                },
+                {
+                    "date": "26.01.25",
+                    "no_of_tickets": "6K",
+                    "total": "2218K",
+                    "days_after_release": 17
+                }
+            ]
         }
     ]
 }

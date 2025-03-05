@@ -11,15 +11,19 @@
             padding: 20px;
             background-color: #f8f9fa;
         }
-        h2 {
+        h2, h3 {
             text-align: center;
             color: #333;
         }
-        textarea {
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input, textarea {
             width: 100%;
-            height: 200px;
-            padding: 10px;
-            font-size: 14px;
+            padding: 8px;
+            margin: 5px 0 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
@@ -50,21 +54,45 @@
 <body>
 
     <h2>Movie Ticket Sales Parser</h2>
+
+    <label for="movie_name">Movie Name:</label>
+    <input type="text" id="movie_name" value="Pushpa 2">
+
+    <label for="release_date">Release Date (DD.MM.YY):</label>
+    <input type="text" id="release_date" value="05.12.24">
+
+    <label for="poster">Poster URL:</label>
+    <input type="text" id="poster" value="https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/pushpa-2-the-rule-et00356724-1737184762.jpg">
+
+    <label for="peak_hour">Peak Hour:</label>
+    <input type="text" id="peak_hour" value="7 PM - 9 PM">
+
+    <label for="inputData">Paste Ticket Sales Data:</label>
     <textarea id="inputData" placeholder="Paste ticket sales data here..."></textarea>
-    <button onclick="parseData()">Parse & Sort Data</button>
+
+    <button onclick="parseData()">Generate JSON</button>
+
     <h3>Output:</h3>
     <pre id="output"></pre>
 
     <script>
         function parseData() {
+            const movieName = document.getElementById("movie_name").value;
+            const releaseDate = document.getElementById("release_date").value; // Format: DD.MM.YY
+            const poster = document.getElementById("poster").value;
+            const peakHour = document.getElementById("peak_hour").value;
             const rawData = document.getElementById("inputData").value.trim();
+
+            if (!movieName || !releaseDate || !poster || !peakHour) {
+                alert("Please fill in all movie details.");
+                return;
+            }
             if (!rawData) {
                 alert("Please enter ticket sales data.");
                 return;
             }
 
             const lines = rawData.split("\n");
-            const releaseDate = new Date("2024-08-15"); // Release Date
             let ticketSales = [];
 
             function parseDate(dateStr) {
@@ -72,9 +100,11 @@
                 return new Date(`20${year}-${month}-${day}`); // Convert "DD.MM.YY" to Date object
             }
 
+            const releaseDateObj = parseDate(releaseDate);
+
             function calculateDays(dateStr) {
                 const eventDate = parseDate(dateStr);
-                return Math.round((eventDate - releaseDate) / (1000 * 60 * 60 * 24));
+                return Math.round((eventDate - releaseDateObj) / (1000 * 60 * 60 * 24));
             }
 
             lines.forEach(line => {
@@ -94,7 +124,7 @@
                     if (daysDiffBefore < 0) {
                         beforeEntry.days_before_release = Math.abs(daysDiffBefore);
                     } else if (daysDiffBefore === 0) {
-                        beforeEntry.days_after_release = 1; // Release day
+                        beforeEntry.days_after_release = 1;
                     } else {
                         beforeEntry.days_after_release = daysDiffBefore + 1;
                     }
@@ -115,7 +145,7 @@
                     if (daysDiffAfter < 0) {
                         afterEntry.days_before_release = Math.abs(daysDiffAfter);
                     } else if (daysDiffAfter === 0) {
-                        afterEntry.days_after_release = 1; // Release day
+                        afterEntry.days_after_release = 1;
                     } else {
                         afterEntry.days_after_release = daysDiffAfter + 1;
                     }
@@ -128,11 +158,15 @@
             ticketSales.sort((a, b) => parseDate(a.date) - parseDate(b.date));
 
             const result = {
-                movie_name: "Stree 2",
-                release_date: "2024-08-15",
-                poster: "https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/stree-2-et00312345-1737184762.jpg",
-                peak_hour: "7 PM - 9 PM",
-                ticket_sales: ticketSales
+                movies: [
+                    {
+                        movie_name: movieName,
+                        release_date: releaseDate,
+                        poster: poster,
+                        peak_hour: peakHour,
+                        ticket_sales: ticketSales
+                    }
+                ]
             };
 
             document.getElementById("output").textContent = JSON.stringify(result, null, 4);

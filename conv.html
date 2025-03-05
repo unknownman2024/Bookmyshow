@@ -1,4 +1,20 @@
-function parseData() {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Sales Parser</title>
+</head>
+<body>
+    <h2>Enter Ticket Sales Data</h2>
+    <textarea id="inputData" rows="10" cols="50"></textarea>
+    <br>
+    <button onclick="parseData()">Generate JSON</button>
+    <h3>Output JSON:</h3>
+    <pre id="output"></pre>
+    
+    <script>
+        function parseData() {
     const rawData = document.getElementById("inputData").value.trim();
     const lines = rawData.split("\n");
     const releaseDate = new Date("2024-08-15"); // Release date
@@ -67,3 +83,7 @@ function parseData() {
 
     document.getElementById("output").textContent = JSON.stringify(result, null, 4);
 }
+
+    </script>
+</body>
+</html>

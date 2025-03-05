@@ -1,23 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket Sales Parser</title>
-</head>
-<body>
-    <h2>Enter Ticket Sales Data</h2>
-    <textarea id="inputData" rows="10" cols="50"></textarea>
-    <br>
-    <button onclick="parseData()">Generate JSON</button>
-    <h3>Output JSON:</h3>
-    <pre id="output"></pre>
-    
-    <script>
-        function parseData() {
+function parseData() {
     const rawData = document.getElementById("inputData").value.trim();
     const lines = rawData.split("\n");
-    const releaseDate = new Date("2024-08-15"); // Release date
+    const releaseDate = new Date("2024-08-15"); // Correct release date
     let ticketSales = [];
 
     function parseDate(dateStr) {
@@ -25,16 +9,17 @@
         return new Date(`20${year}-${month}-${day}`); // Convert "DD.MM.YY" to Date object
     }
 
-    function calculateDaysDifference(dateStr) {
+    function calculateDays(dateStr) {
         const eventDate = parseDate(dateStr);
-        return Math.round((eventDate - releaseDate) / (1000 * 60 * 60 * 24));
+        const diff = Math.round((eventDate - releaseDate) / (1000 * 60 * 60 * 24));
+        return diff;
     }
 
     lines.forEach(line => {
         let parts = line.split(/\s+/);
         if (parts.length >= 10) {
             let dateBefore = parts[1];
-            let daysDiffBefore = calculateDaysDifference(dateBefore);
+            let daysDiffBefore = calculateDays(dateBefore);
             let noOfTicketsBefore = parts[3].replace(/\s/g, "");
             let totalBefore = parts[4].replace(/\s/g, "");
 
@@ -44,14 +29,18 @@
                 total: totalBefore
             };
 
-            if (daysDiffBefore > 0) {
-                beforeEntry.days_before_release = daysDiffBefore;
+            if (daysDiffBefore < 0) {
+                beforeEntry.days_before_release = Math.abs(daysDiffBefore);
+            } else if (daysDiffBefore === 0) {
+                beforeEntry.days_after_release = 1; // Release day
+            } else {
+                beforeEntry.days_after_release = daysDiffBefore + 1;
             }
 
             ticketSales.push(beforeEntry);
 
             let dateAfter = parts[6];
-            let daysDiffAfter = calculateDaysDifference(dateAfter);
+            let daysDiffAfter = calculateDays(dateAfter);
             let noOfTicketsAfter = parts[8].replace(/\s/g, "");
             let totalAfter = parts[9].replace(/\s/g, "");
 
@@ -61,8 +50,11 @@
                 total: totalAfter
             };
 
-            // Fix: Count release date (15.08.24) as days_after_release: 1
-            if (daysDiffAfter >= 0) {
+            if (daysDiffAfter < 0) {
+                afterEntry.days_before_release = Math.abs(daysDiffAfter);
+            } else if (daysDiffAfter === 0) {
+                afterEntry.days_after_release = 1; // Release day
+            } else {
                 afterEntry.days_after_release = daysDiffAfter + 1;
             }
 
@@ -83,7 +75,3 @@
 
     document.getElementById("output").textContent = JSON.stringify(result, null, 4);
 }
-
-    </script>
-</body>
-</html>

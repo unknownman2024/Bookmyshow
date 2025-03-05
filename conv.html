@@ -3,70 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket Sales to JSON</title>
+    <title>Ticket Sales Parser</title>
 </head>
 <body>
-    <h2>Paste Ticket Sales Data</h2>
-    <textarea id="inputData" rows="10" cols="50"></textarea><br>
-    <label>Movie Name: <input type="text" id="movieName" value="Stree 2"></label><br>
-    <label>Release Date: <input type="date" id="releaseDate" value="2024-08-15"></label><br>
-    <label>Poster URL: <input type="text" id="poster" value="https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/stree-2-et00312345-1737184762.jpg"></label><br>
-    <label>Peak Hour: <input type="text" id="peakHour" value="7 PM - 9 PM"></label><br>
-    <button onclick="convertToJSON()">Convert</button>
-    <h3>JSON Output:</h3>
+    <h2>Enter Ticket Sales Data</h2>
+    <textarea id="inputData" rows="10" cols="50"></textarea>
+    <br>
+    <button onclick="parseData()">Generate JSON</button>
+    <h3>Output JSON:</h3>
     <pre id="output"></pre>
-
+    
     <script>
-        function convertToJSON() {
-            const inputText = document.getElementById("inputData").value;
-            const movieName = document.getElementById("movieName").value;
-            const releaseDateStr = document.getElementById("releaseDate").value;
-            const poster = document.getElementById("poster").value;
-            const peakHour = document.getElementById("peakHour").value;
-            const releaseDate = new Date(releaseDateStr);
+        function parseData() {
+            const rawData = document.getElementById("inputData").value.trim();
+            const lines = rawData.split("\n");
+            const releaseDate = new Date("2024-08-15");
+            let ticketSales = [];
             
-            const lines = inputText.trim().split("\n");
-            const ticketSales = [];
-            
-            for (let line of lines) {
-                const parts = line.split(/\s+/);
-                if (parts.length < 5) continue;
-
-                const dateStr = parts[1];
-                const noOfTickets = parts[3].replace(/\s+/g, "");
-                const total = parts[4].replace(/\s+/g, "");
-                
-                const dateParts = dateStr.split(".");
-                const date = new Date(`20${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`);
-                
-                let daysBeforeRelease = null;
-                let daysAfterRelease = null;
-                const diff = Math.round((date - releaseDate) / (1000 * 60 * 60 * 24));
-                
-                if (diff < 0) {
-                    daysBeforeRelease = Math.abs(diff);
-                } else {
-                    daysAfterRelease = diff + 1;
+            lines.forEach(line => {
+                let parts = line.split(/\s+/);
+                if (parts.length >= 6) {
+                    // Extract before release data
+                    let daysBeforeRelease = parseInt(parts[0]);
+                    let dateBefore = parts[1];
+                    let noOfTicketsBefore = parts[3].replace(/\s/g, "");
+                    let totalBefore = parts[4].replace(/\s/g, "");
+                    
+                    ticketSales.push({
+                        date: dateBefore,
+                        no_of_tickets: noOfTicketsBefore,
+                        total: totalBefore,
+                        days_before_release: daysBeforeRelease
+                    });
+                    
+                    // Extract after release data
+                    let daysAfterRelease = parseInt(parts[5]);
+                    let dateAfter = parts[6];
+                    let noOfTicketsAfter = parts[8].replace(/\s/g, "");
+                    let totalAfter = parts[9].replace(/\s/g, "");
+                    
+                    ticketSales.push({
+                        date: dateAfter,
+                        no_of_tickets: noOfTicketsAfter,
+                        total: totalAfter,
+                        days_after_release: daysAfterRelease
+                    });
                 }
-                
-                ticketSales.push({
-                    date: dateStr,
-                    no_of_tickets: noOfTickets,
-                    total: total,
-                    days_before_release: daysBeforeRelease,
-                    days_after_release: daysAfterRelease
-                });
-            }
+            });
             
-            const outputJSON = {
-                movie_name: movieName,
-                release_date: releaseDateStr,
-                poster: poster,
-                peak_hour: peakHour,
+            ticketSales.sort((a, b) => {
+                let dateA = new Date(a.date.split(".").reverse().join("-"));
+                let dateB = new Date(b.date.split(".").reverse().join("-"));
+                return dateA - dateB;
+            });
+            
+            const result = {
+                movie_name: "Stree 2",
+                release_date: "2024-08-15",
+                poster: "https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/stree-2-et00312345-1737184762.jpg",
+                peak_hour: "7 PM - 9 PM",
                 ticket_sales: ticketSales
             };
             
-            document.getElementById("output").textContent = JSON.stringify(outputJSON, null, 4);
+            document.getElementById("output").textContent = JSON.stringify(result, null, 4);
         }
     </script>
 </body>

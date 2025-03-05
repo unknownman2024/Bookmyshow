@@ -3,6 +3,9 @@
     {
       "movie_name": "Pushpa 2",
       "release_date": "05.12.24",
+            "poster": "https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/pushpa-2-the-rule-et00356724-1737184762.jpg",
+      "peak_hour": "7 PM - 9 PM",
+
       "ticket_sales": [
         {
           "days_before_release": 5,
@@ -190,8 +193,8 @@
     {
       "movie_name": "Interstellar (Rerelease)",
       "release_date": "17.01.25",
-      "poster": "https://example.com/interstellar_poster.jpg",
-      "peak_hour": "7 PM - 9 PM",
+      "poster": "https://assets-in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/interstellar-et00019066-19-02-2021-02-25-12.jpg",
+      "peak_hour": "X",
       "ticket_sales": [
         {
           "days_before_release": 1,
@@ -367,8 +370,8 @@
         {
             "movie_name": "Jawan",
             "release_date": "07.09.23",
-            "poster": "https://example.com/jawan_poster.jpg",
-            "peak_hour": "6 PM - 10 PM",
+            "poster": "https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/jawan-et00330424-1693892482.jpg",
+            "peak_hour": "X",
             "ticket_sales": [
                 {
                     "days_before_release": 6,
@@ -588,6 +591,234 @@
                 }
             ],
             "total_tickets": "12001K"
+        }
+,
+
+
+        {
+            "movie_name": "Kalki 2898 AD",
+            "release_date": "27.06.24",
+            "poster": "https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/kalki-2898-ad-et00352941-1718275859.jpg",
+            "peak_hour": "X",
+            "ticket_sales": [
+                {
+                    "days_before_release": 4,
+                    "date": "23.06.24",
+                    "no_of_tickets": "342K",
+                    "total": "342K"
+                },
+                {
+                    "days_before_release": 3,
+                    "date": "24.06.24",
+                    "no_of_tickets": "330K",
+                    "total": "672K"
+                },
+                {
+                    "days_before_release": 2,
+                    "date": "25.06.24",
+                    "no_of_tickets": "447K",
+                    "total": "1120K"
+                },
+                {
+                    "days_before_release": 1,
+                    "date": "26.06.24",
+                    "no_of_tickets": "677K",
+                    "total": "1797K"
+                },
+                {
+                    "days_after_release": 1,
+                    "date": "27.06.24",
+                    "no_of_tickets": "1120K",
+                    "total": "2917K"
+                },
+                {
+                    "days_after_release": 2,
+                    "date": "28.06.24",
+                    "no_of_tickets": "1176K",
+                    "total": "4093K"
+                },
+                {
+                    "days_after_release": 3,
+                    "date": "29.06.24",
+                    "no_of_tickets": "1280K",
+                    "total": "5373K"
+                },
+                {
+                    "days_after_release": 4,
+                    "date": "30.06.24",
+                    "no_of_tickets": "1120K",
+                    "total": "6493K"
+                },
+                {
+                    "days_after_release": 5,
+                    "date": "01.07.24",
+                    "no_of_tickets": "610K",
+                    "total": "7103K"
+                },
+                {
+                    "days_after_release": 6,
+                    "date": "02.07.24",
+                    "no_of_tickets": "439K",
+                    "total": "7542K"
+                },
+                {
+                    "days_after_release": 7,
+                    "date": "03.07.24",
+                    "no_of_tickets": "480K",
+                    "total": "8022K"
+                },
+                {
+                    "days_after_release": 8,
+                    "date": "04.07.24",
+                    "no_of_tickets": "481K",
+                    "total": "8503K"
+                },
+                {
+                    "days_after_release": 9,
+                    "date": "05.07.24",
+                    "no_of_tickets": "569K",
+                    "total": "9072K"
+                },
+                {
+                    "days_after_release": 10,
+                    "date": "06.07.24",
+                    "no_of_tickets": "728K",
+                    "total": "9800K"
+                },
+                {
+                    "days_after_release": 11,
+                    "date": "07.07.24",
+                    "no_of_tickets": "576K",
+                    "total": "10376K"
+                },
+                {
+                    "days_after_release": 12,
+                    "date": "08.07.24",
+                    "no_of_tickets": "187K",
+                    "total": "10564K"
+                },
+                {
+                    "days_after_release": 13,
+                    "date": "09.07.24",
+                    "no_of_tickets": "169K",
+                    "total": "10733K"
+                },
+                {
+                    "days_after_release": 14,
+                    "date": "10.07.24",
+                    "no_of_tickets": "141K",
+                    "total": "10874K"
+                },
+                {
+                    "days_after_release": 15,
+                    "date": "11.07.24",
+                    "no_of_tickets": "164K",
+                    "total": "11038K"
+                },
+                {
+                    "days_after_release": 16,
+                    "date": "12.07.24",
+                    "no_of_tickets": "192K",
+                    "total": "11230K"
+                },
+                {
+                    "days_after_release": 17,
+                    "date": "13.07.24",
+                    "no_of_tickets": "363K",
+                    "total": "11593K"
+                },
+                {
+                    "days_after_release": 18,
+                    "date": "14.07.24",
+                    "no_of_tickets": "279K",
+                    "total": "11872K"
+                },
+                {
+                    "days_after_release": 19,
+                    "date": "15.07.24",
+                    "no_of_tickets": "89K",
+                    "total": "11962K"
+                },
+                {
+                    "days_after_release": 20,
+                    "date": "16.07.24",
+                    "no_of_tickets": "109K",
+                    "total": "12070K"
+                },
+                {
+                    "days_after_release": 21,
+                    "date": "17.07.24",
+                    "no_of_tickets": "128K",
+                    "total": "12199K"
+                },
+                {
+                    "days_after_release": 22,
+                    "date": "18.07.24",
+                    "no_of_tickets": "57K",
+                    "total": "12256K"
+                },
+                {
+                    "days_after_release": 23,
+                    "date": "19.07.24",
+                    "no_of_tickets": "78K",
+                    "total": "12334K"
+                },
+                {
+                    "days_after_release": 24,
+                    "date": "20.07.24",
+                    "no_of_tickets": "139K",
+                    "total": "12473K"
+                },
+                {
+                    "days_after_release": 25,
+                    "date": "21.07.24",
+                    "no_of_tickets": "134K",
+                    "total": "12607K"
+                },
+                {
+                    "days_after_release": 26,
+                    "date": "22.07.24",
+                    "no_of_tickets": "34K",
+                    "total": "12641K"
+                },
+                {
+                    "days_after_release": 27,
+                    "date": "23.07.24",
+                    "no_of_tickets": "33K",
+                    "total": "12674K"
+                },
+                {
+                    "days_after_release": 28,
+                    "date": "24.07.24",
+                    "no_of_tickets": "26K",
+                    "total": "12701K"
+                },
+                {
+                    "days_after_release": 29,
+                    "date": "25.07.24",
+                    "no_of_tickets": "27K",
+                    "total": "12728K"
+                },
+                {
+                    "days_after_release": 30,
+                    "date": "26.07.24",
+                    "no_of_tickets": "35K",
+                    "total": "12763K"
+                },
+                {
+                    "days_after_release": 31,
+                    "date": "27.07.24",
+                    "no_of_tickets": "64K",
+                    "total": "12827K"
+                },
+                {
+                    "days_after_release": 32,
+                    "date": "28.07.24",
+                    "no_of_tickets": "64K",
+                    "total": "12891K"
+                }
+            ],
+            "total_tickets": "13190K"
         }
     ]
 }

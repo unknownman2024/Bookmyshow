@@ -7,7 +7,7 @@
     <title>Movie Ticket Sales</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <script>
-       async function fetchMovies() {
+   async function fetchMovies() {
     try {
         const response = await fetch('moviebmsdata.json');
         const data = await response.json();
@@ -20,12 +20,21 @@
             const presales = movie.ticket_sales
                 .filter(d => d.hasOwnProperty('days_before_release'))
                 .reduce((acc, day) => {
-                    let tickets = day.no_of_tickets.replace('K', '') * (day.no_of_tickets.includes('K') ? 1000 : 1);
-                    return acc + parseInt(tickets, 10);
+                    let tickets = parseFloat(day.no_of_tickets.replace('K', '')) * (day.no_of_tickets.includes('K') ? 1000 : 1);
+                    return acc + tickets;
                 }, 0);
 
             // Get last total ticket sales from the last ticket_sales entry
-            const lastSale = movie.ticket_sales.length > 0 ? movie.ticket_sales[movie.ticket_sales.length - 1].total : 'N/A';
+            let lastSale = movie.ticket_sales.length > 0 ? movie.ticket_sales[movie.ticket_sales.length - 1].total : 'N/A';
+            lastSale = parseFloat(lastSale.replace('K', '').replace('M', '')) * 
+                       (lastSale.includes('M') ? 1000000 : (lastSale.includes('K') ? 1000 : 1));
+
+            // Format numbers in K/M
+            const formatNumber = (num) => {
+                if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
+                if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+                return num;
+            };
 
             const poster = movie.poster || 'default-poster.jpg'; // Fallback image
 
@@ -35,8 +44,8 @@
                     <h2 class="text-xl font-bold mt-4">${movie.movie_name}</h2>
                     <p><strong>Release Date:</strong> ${movie.release_date}</p>
                     <p><strong>Peak Hour:</strong> ${movie.peak_hour}</p>
-                    <p><strong>Presales:</strong> ${presales.toLocaleString()} tickets</p>
-                    <p><strong>Total Tickets:</strong> ${lastSale}</p>
+                    <p><strong>Presales:</strong> ${formatNumber(presales)}</p>
+                    <p><strong>Total Tickets:</strong> ${formatNumber(lastSale)}</p>
                     <a href="details?movie_name=${encodeURIComponent(movie.movie_name)}" class="text-blue-500 hover:underline">View Details</a>
                 </div>
             `;

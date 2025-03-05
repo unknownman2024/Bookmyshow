@@ -1711,6 +1711,116 @@
                     "days_after_release": 17
                 }
             ]
+        },
+     {
+            "movie_name": "Daaku Maharaaj",
+            "release_date": "12.01.25",
+            "poster": "https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/daaku-maharaaj-et00419964-1731669684.jpg",
+            "peak_hour": "20.59K",
+            "ticket_sales": [
+                {
+                    "date": "10.01.25",
+                    "no_of_tickets": "62K",
+                    "total": "62K",
+                    "days_before_release": 2
+                },
+                {
+                    "date": "11.01.25",
+                    "no_of_tickets": "172K",
+                    "total": "235K",
+                    "days_before_release": 1
+                },
+                {
+                    "date": "12.01.25",
+                    "no_of_tickets": "292K",
+                    "total": "526K",
+                    "days_after_release": 1
+                },
+                {
+                    "date": "13.01.25",
+                    "no_of_tickets": "219K",
+                    "total": "745K",
+                    "days_after_release": 2
+                },
+                {
+                    "date": "14.01.25",
+                    "no_of_tickets": "191K",
+                    "total": "937K",
+                    "days_after_release": 3
+                },
+                {
+                    "date": "15.01.25",
+                    "no_of_tickets": "120K",
+                    "total": "1056K",
+                    "days_after_release": 4
+                },
+                {
+                    "date": "16.01.25",
+                    "no_of_tickets": "75K",
+                    "total": "1131K",
+                    "days_after_release": 5
+                },
+                {
+                    "date": "17.01.25",
+                    "no_of_tickets": "55K",
+                    "total": "1186K",
+                    "days_after_release": 6
+                },
+                {
+                    "date": "18.01.25",
+                    "no_of_tickets": "53K",
+                    "total": "1239K",
+                    "days_after_release": 7
+                },
+                {
+                    "date": "19.01.25",
+                    "no_of_tickets": "43K",
+                    "total": "1282K",
+                    "days_after_release": 8
+                },
+                {
+                    "date": "20.01.25",
+                    "no_of_tickets": "13K",
+                    "total": "1295K",
+                    "days_after_release": 9
+                },
+                {
+                    "date": "21.01.25",
+                    "no_of_tickets": "11K",
+                    "total": "1306K",
+                    "days_after_release": 10
+                },
+                {
+                    "date": "22.01.25",
+                    "no_of_tickets": "10K",
+                    "total": "1316K",
+                    "days_after_release": 11
+                },
+                {
+                    "date": "23.01.25",
+                    "no_of_tickets": "8K",
+                    "total": "1324K",
+                    "days_after_release": 12
+                },
+                {
+                    "date": "24.01.25",
+                    "no_of_tickets": "8K",
+                    "total": "1332K",
+                    "days_after_release": 13
+                },
+                {
+                    "date": "25.01.25",
+                    "no_of_tickets": "13K",
+                    "total": "1345K",
+                    "days_after_release": 14
+                },
+                {
+                    "date": "26.01.25",
+                    "no_of_tickets": "17K",
+                    "total": "1363K",
+                    "days_after_release": 15
+                } 
+            ]
         }
     ]
 }

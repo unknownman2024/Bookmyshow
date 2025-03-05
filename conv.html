@@ -3,42 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text to JSON Converter</title>
+    <title>Ticket Sales to JSON</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        textarea { width: 100%; height: 200px; }
+        input, button { margin-top: 10px; display: block; }
+    </style>
 </head>
 <body>
-    <h2>Paste Your Data</h2>
-    <textarea id="inputData" rows="10" cols="80"></textarea>
-    <br>
-    <button onclick="convertToJSON()">Convert to JSON</button>
-    <h2>JSON Output</h2>
+    <h2>Convert Ticket Sales Data to JSON</h2>
+    <label>Movie Name: <input type="text" id="movie_name" value="Stree 2"></label>
+    <label>Release Date: <input type="date" id="release_date" value="2024-08-15"></label>
+    <label>Poster URL: <input type="text" id="poster" value="https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/stree-2-et00312345-1737184762.jpg"></label>
+    <label>Peak Hour: <input type="text" id="peak_hour" value="7 PM - 9 PM"></label>
+    <label>Paste Ticket Sales Data:</label>
+    <textarea id="input_data"></textarea>
+    <button onclick="convertToJSON()">Convert</button>
+    <h3>JSON Output:</h3>
     <pre id="output"></pre>
 
     <script>
         function convertToJSON() {
-            const input = document.getElementById("inputData").value;
-            const lines = input.split("\n");
-            let jsonData = { "movie_name": "Stree 2", "ticket_sales": [] };
-
-            for (let line of lines) {
-                const parts = line.trim().split(/\t+/);
-                if (parts.length >= 6) {
+            const movieName = document.getElementById('movie_name').value;
+            const releaseDate = document.getElementById('release_date').value;
+            const poster = document.getElementById('poster').value;
+            const peakHour = document.getElementById('peak_hour').value;
+            const inputData = document.getElementById('input_data').value;
+            
+            const lines = inputData.split('\n').map(line => line.trim()).filter(line => line);
+            let ticketSales = [];
+            let releaseDateObj = new Date(releaseDate);
+            
+            lines.forEach(line => {
+                let parts = line.split(/\s+/);
+                if (parts.length >= 5) {
                     let day = parseInt(parts[0]);
                     let date = parts[1];
                     let dayOfWeek = parts[2];
-                    let noOfTickets = parts[3].replace(/\s+/g, "");
-                    let total = parts[4].replace(/\s+/g, "");
+                    let noOfTickets = parts[3].replace(/\s+/g, ''); // Remove spaces within numbers
+                    let total = parts[4].replace(/\s+/g, '');
                     
-                    jsonData.ticket_sales.push({
-                        "day": day,
-                        "date": date,
-                        "day_of_week": dayOfWeek,
-                        "no_of_tickets": noOfTickets,
-                        "total": total
-                    });
+                    let dateObj = new Date(date.split('.').reverse().join('-'));
+                    let diffDays = (releaseDateObj - dateObj) / (1000 * 60 * 60 * 24);
+                    
+                    let entry = {
+                        date: date,
+                        no_of_tickets: noOfTickets,
+                        total: total
+                    };
+                    
+                    if (diffDays > 0) {
+                        entry.days_before_release = diffDays;
+                    } else {
+                        entry.days_after_release = Math.abs(diffDays) + 1;
+                    }
+                    
+                    ticketSales.push(entry);
                 }
-            }
+            });
 
-            document.getElementById("output").textContent = JSON.stringify(jsonData, null, 2);
+            const jsonOutput = {
+                movie_name: movieName,
+                release_date: releaseDate,
+                poster: poster,
+                peak_hour: peakHour,
+                ticket_sales: ticketSales
+            };
+
+            document.getElementById('output').textContent = JSON.stringify(jsonOutput, null, 4);
         }
     </script>
 </body>

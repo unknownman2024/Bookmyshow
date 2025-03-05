@@ -3,69 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Details</title>
+    <title>Movie Ticket Sales Details</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <script>
         async function fetchMovieDetails() {
             const urlParams = new URLSearchParams(window.location.search);
-            const movieName = urlParams.get('movie_name');
-            if (!movieName) {
-                document.body.innerHTML = '<p class="text-center text-red-500">Movie not found!</p>';
-                return;
-            }
-            
+            const movieName = urlParams.get("movie_name");
+
             const response = await fetch('moviebmsdata.json');
             const data = await response.json();
+
             const movie = data.movies.find(m => m.movie_name === movieName);
-            
             if (!movie) {
-                document.body.innerHTML = '<p class="text-center text-red-500">Movie not found!</p>';
+                document.getElementById("movie-title").innerText = "Movie not found!";
                 return;
             }
-            
-            document.getElementById('movie-title').innerText = movie.movie_name;
-            document.getElementById('movie-poster').src = movie.poster;
-            document.getElementById('release-date').innerText = `Release Date: ${movie.release_date}`;
-            document.getElementById('peak-hour').innerText = `Peak Hour: ${movie.peak_hour}`;
-            
-            const salesContainer = document.getElementById('ticket-sales');
+
+            document.getElementById("movie-title").innerText = movie.movie_name;
+            document.getElementById("release-date").innerText = `Release Date: ${movie.release_date}`;
+
+            const tableBody = document.getElementById("sales-data");
+            tableBody.innerHTML = ""; // Clear previous content
+
             movie.ticket_sales.forEach(day => {
-                salesContainer.innerHTML += `<tr class="border-b">
-                    <td class="p-2">${day.day}</td>
-                    <td class="p-2">${day.date}</td>
-                    <td class="p-2">${day.tickets}</td>
-                    <td class="p-2">${day.total}</td>
-                </tr>`;
+                const row = `
+                    <tr class="border-b">
+                        <td class="px-4 py-2">${day.days_before_release}</td>
+                        <td class="px-4 py-2">${day.date}</td>
+                        <td class="px-4 py-2">${day.no_of_tickets}</td>
+                        <td class="px-4 py-2">${day.total}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
             });
         }
-        
+
         window.onload = fetchMovieDetails;
     </script>
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto py-10">
-        <h1 class="text-3xl font-bold text-center mb-6" id="movie-title"></h1>
-        <div class="flex justify-center">
-            <img id="movie-poster" class="w-64 h-96 object-cover rounded-lg" alt="Movie Poster">
-        </div>
-        <p class="text-center mt-4 text-lg" id="release-date"></p>
-        <p class="text-center text-lg" id="peak-hour"></p>
-        <div class="mt-6 p-4 bg-white shadow-lg rounded-lg">
-            <h2 class="text-xl font-semibold mb-4">Day-wise Ticket Sales</h2>
-            <table class="w-full border-collapse border border-gray-300">
+        <h1 class="text-3xl font-bold text-center mb-4" id="movie-title"></h1>
+        <p class="text-lg text-center mb-6" id="release-date"></p>
+
+        <div class="overflow-x-auto bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4">Day-wise Ticket Sales</h2>
+            <table class="min-w-full bg-white border border-gray-300">
                 <thead>
                     <tr class="bg-gray-200">
-                        <th class="p-2 border">Day</th>
-                        <th class="p-2 border">Date</th>
-                        <th class="p-2 border">Tickets Sold</th>
-                        <th class="p-2 border">Total Sales</th>
+                        <th class="px-4 py-2 text-left">Day</th>
+                        <th class="px-4 py-2 text-left">Date</th>
+                        <th class="px-4 py-2 text-left">Tickets Sold</th>
+                        <th class="px-4 py-2 text-left">Total Sales</th>
                     </tr>
                 </thead>
-                <tbody id="ticket-sales"></tbody>
+                <tbody id="sales-data"></tbody>
             </table>
         </div>
+
         <div class="text-center mt-6">
-            <a href="index.html" class="text-blue-500 hover:underline">Back to Home</a>
+            <a href="index.html" class="text-blue-500 hover:underline">Back to Movies List</a>
         </div>
     </div>
 </body>

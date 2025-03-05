@@ -6,39 +6,52 @@
     <title>Movie Ticket Sales Details</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <script>
-        async function fetchMovieDetails() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const movieName = urlParams.get("movie_name");
+ 
+    async function fetchMovieDetails() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieName = urlParams.get("movie_name");
 
-            const response = await fetch('moviebmsdata.json');
-            const data = await response.json();
+    const response = await fetch('moviebmsdata.json');
+    const data = await response.json();
 
-            const movie = data.movies.find(m => m.movie_name === movieName);
-            if (!movie) {
-                document.getElementById("movie-title").innerText = "Movie not found!";
-                return;
-            }
+    const movie = data.movies.find(m => m.movie_name === movieName);
+    if (!movie) {
+        document.getElementById("movie-title").innerText = "Movie not found!";
+        return;
+    }
 
-            document.getElementById("movie-title").innerText = movie.movie_name;
-            document.getElementById("release-date").innerText = `Release Date: ${movie.release_date}`;
+    document.getElementById("movie-title").innerText = movie.movie_name;
+    document.getElementById("release-date").innerText = `Release Date: ${movie.release_date}`;
 
-            const tableBody = document.getElementById("sales-data");
-            tableBody.innerHTML = ""; // Clear previous content
+    const tableBody = document.getElementById("sales-data");
+    tableBody.innerHTML = ""; // Clear previous content
 
-            movie.ticket_sales.forEach(day => {
-                const row = `
-                    <tr class="border-b">
-                        <td class="px-4 py-2">${day.days_before_release}</td>
-                        <td class="px-4 py-2">${day.date}</td>
-                        <td class="px-4 py-2">${day.no_of_tickets}</td>
-                        <td class="px-4 py-2">${day.total}</td>
-                    </tr>
-                `;
-                tableBody.innerHTML += row;
-            });
+    movie.ticket_sales.forEach(day => {
+        let displayDay;
+        if (day.hasOwnProperty("days_before_release")) {
+            displayDay = day.days_before_release;
+        } else if (day.hasOwnProperty("days_after_release")) {
+            displayDay = `+${day.days_after_release}`; // Display positive days after release
+        } else {
+            displayDay = "N/A"; // Fallback in case neither exists
         }
 
-        window.onload = fetchMovieDetails;
+        const row = `
+            <tr class="border-b">
+                <td class="px-4 py-2">${displayDay}</td>
+                <td class="px-4 py-2">${day.date}</td>
+                <td class="px-4 py-2">${day.no_of_tickets}</td>
+                <td class="px-4 py-2">${day.total}</td>
+            </tr>
+        `;
+        tableBody.innerHTML += row;
+    });
+}
+
+window.onload = fetchMovieDetails;
+
+    
+    
     </script>
 </head>
 <body class="bg-gray-100">

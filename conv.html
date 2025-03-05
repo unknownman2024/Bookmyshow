@@ -17,7 +17,7 @@
         function parseData() {
             const rawData = document.getElementById("inputData").value.trim();
             const lines = rawData.split("\n");
-            const releaseDate = new Date("2024-08-15"); // Movie release date
+            const releaseDate = new Date("2024-08-15"); // Release date
             let ticketSales = [];
 
             function parseDate(dateStr) {
@@ -26,7 +26,8 @@
             }
 
             function calculateDaysDifference(dateStr) {
-                return Math.round((parseDate(dateStr) - releaseDate) / (1000 * 60 * 60 * 24));
+                const eventDate = parseDate(dateStr);
+                return Math.round((eventDate - releaseDate) / (1000 * 60 * 60 * 24));
             }
 
             lines.forEach(line => {
@@ -37,24 +38,38 @@
                     let noOfTicketsBefore = parts[3].replace(/\s/g, "");
                     let totalBefore = parts[4].replace(/\s/g, "");
 
-                    ticketSales.push({
+                    let beforeEntry = {
                         date: dateBefore,
                         no_of_tickets: noOfTicketsBefore,
-                        total: totalBefore,
-                        days_before_release: daysDiffBefore > 0 ? daysDiffBefore : undefined
-                    });
+                        total: totalBefore
+                    };
+
+                    if (daysDiffBefore > 0) {
+                        beforeEntry.days_before_release = daysDiffBefore;
+                    } else if (daysDiffBefore === 0) {
+                        beforeEntry.release_day = true;
+                    }
+
+                    ticketSales.push(beforeEntry);
 
                     let dateAfter = parts[6];
                     let daysDiffAfter = calculateDaysDifference(dateAfter);
                     let noOfTicketsAfter = parts[8].replace(/\s/g, "");
                     let totalAfter = parts[9].replace(/\s/g, "");
 
-                    ticketSales.push({
+                    let afterEntry = {
                         date: dateAfter,
                         no_of_tickets: noOfTicketsAfter,
-                        total: totalAfter,
-                        days_after_release: daysDiffAfter >= 0 ? daysDiffAfter : undefined
-                    });
+                        total: totalAfter
+                    };
+
+                    if (daysDiffAfter > 0) {
+                        afterEntry.days_after_release = daysDiffAfter;
+                    } else if (daysDiffAfter === 0) {
+                        afterEntry.release_day = true;
+                    }
+
+                    ticketSales.push(afterEntry);
                 }
             });
 

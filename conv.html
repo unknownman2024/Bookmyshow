@@ -1,77 +1,143 @@
-function parseData() {
-    const rawData = document.getElementById("inputData").value.trim();
-    const lines = rawData.split("\n");
-    const releaseDate = new Date("2024-08-15"); // Correct release date
-    let ticketSales = [];
-
-    function parseDate(dateStr) {
-        let [day, month, year] = dateStr.split(".");
-        return new Date(`20${year}-${month}-${day}`); // Convert "DD.MM.YY" to Date object
-    }
-
-    function calculateDays(dateStr) {
-        const eventDate = parseDate(dateStr);
-        const diff = Math.round((eventDate - releaseDate) / (1000 * 60 * 60 * 24));
-        return diff;
-    }
-
-    lines.forEach(line => {
-        let parts = line.split(/\s+/);
-        if (parts.length >= 10) {
-            let dateBefore = parts[1];
-            let daysDiffBefore = calculateDays(dateBefore);
-            let noOfTicketsBefore = parts[3].replace(/\s/g, "");
-            let totalBefore = parts[4].replace(/\s/g, "");
-
-            let beforeEntry = {
-                date: dateBefore,
-                no_of_tickets: noOfTicketsBefore,
-                total: totalBefore
-            };
-
-            if (daysDiffBefore < 0) {
-                beforeEntry.days_before_release = Math.abs(daysDiffBefore);
-            } else if (daysDiffBefore === 0) {
-                beforeEntry.days_after_release = 1; // Release day
-            } else {
-                beforeEntry.days_after_release = daysDiffBefore + 1;
-            }
-
-            ticketSales.push(beforeEntry);
-
-            let dateAfter = parts[6];
-            let daysDiffAfter = calculateDays(dateAfter);
-            let noOfTicketsAfter = parts[8].replace(/\s/g, "");
-            let totalAfter = parts[9].replace(/\s/g, "");
-
-            let afterEntry = {
-                date: dateAfter,
-                no_of_tickets: noOfTicketsAfter,
-                total: totalAfter
-            };
-
-            if (daysDiffAfter < 0) {
-                afterEntry.days_before_release = Math.abs(daysDiffAfter);
-            } else if (daysDiffAfter === 0) {
-                afterEntry.days_after_release = 1; // Release day
-            } else {
-                afterEntry.days_after_release = daysDiffAfter + 1;
-            }
-
-            ticketSales.push(afterEntry);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Ticket Sales Parser</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
         }
-    });
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        pre {
+            background: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
 
-    // Sort by date in ascending order
-    ticketSales.sort((a, b) => parseDate(a.date) - parseDate(b.date));
+    <h2>Movie Ticket Sales Parser</h2>
+    <textarea id="inputData" placeholder="Paste ticket sales data here..."></textarea>
+    <button onclick="parseData()">Parse & Sort Data</button>
+    <h3>Output:</h3>
+    <pre id="output"></pre>
 
-    const result = {
-        movie_name: "Stree 2",
-        release_date: "2024-08-15",
-        poster: "https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/stree-2-et00312345-1737184762.jpg",
-        peak_hour: "7 PM - 9 PM",
-        ticket_sales: ticketSales
-    };
+    <script>
+        function parseData() {
+            const rawData = document.getElementById("inputData").value.trim();
+            if (!rawData) {
+                alert("Please enter ticket sales data.");
+                return;
+            }
 
-    document.getElementById("output").textContent = JSON.stringify(result, null, 4);
-}
+            const lines = rawData.split("\n");
+            const releaseDate = new Date("2024-08-15"); // Release Date
+            let ticketSales = [];
+
+            function parseDate(dateStr) {
+                let [day, month, year] = dateStr.split(".");
+                return new Date(`20${year}-${month}-${day}`); // Convert "DD.MM.YY" to Date object
+            }
+
+            function calculateDays(dateStr) {
+                const eventDate = parseDate(dateStr);
+                return Math.round((eventDate - releaseDate) / (1000 * 60 * 60 * 24));
+            }
+
+            lines.forEach(line => {
+                let parts = line.split(/\s+/);
+                if (parts.length >= 10) {
+                    let dateBefore = parts[1];
+                    let daysDiffBefore = calculateDays(dateBefore);
+                    let noOfTicketsBefore = parts[3].replace(/\s/g, "");
+                    let totalBefore = parts[4].replace(/\s/g, "");
+
+                    let beforeEntry = {
+                        date: dateBefore,
+                        no_of_tickets: noOfTicketsBefore,
+                        total: totalBefore
+                    };
+
+                    if (daysDiffBefore < 0) {
+                        beforeEntry.days_before_release = Math.abs(daysDiffBefore);
+                    } else if (daysDiffBefore === 0) {
+                        beforeEntry.days_after_release = 1; // Release day
+                    } else {
+                        beforeEntry.days_after_release = daysDiffBefore + 1;
+                    }
+
+                    ticketSales.push(beforeEntry);
+
+                    let dateAfter = parts[6];
+                    let daysDiffAfter = calculateDays(dateAfter);
+                    let noOfTicketsAfter = parts[8].replace(/\s/g, "");
+                    let totalAfter = parts[9].replace(/\s/g, "");
+
+                    let afterEntry = {
+                        date: dateAfter,
+                        no_of_tickets: noOfTicketsAfter,
+                        total: totalAfter
+                    };
+
+                    if (daysDiffAfter < 0) {
+                        afterEntry.days_before_release = Math.abs(daysDiffAfter);
+                    } else if (daysDiffAfter === 0) {
+                        afterEntry.days_after_release = 1; // Release day
+                    } else {
+                        afterEntry.days_after_release = daysDiffAfter + 1;
+                    }
+
+                    ticketSales.push(afterEntry);
+                }
+            });
+
+            // Sort by date in ascending order
+            ticketSales.sort((a, b) => parseDate(a.date) - parseDate(b.date));
+
+            const result = {
+                movie_name: "Stree 2",
+                release_date: "2024-08-15",
+                poster: "https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/stree-2-et00312345-1737184762.jpg",
+                peak_hour: "7 PM - 9 PM",
+                ticket_sales: ticketSales
+            };
+
+            document.getElementById("output").textContent = JSON.stringify(result, null, 4);
+        }
+    </script>
+
+</body>
+</html>

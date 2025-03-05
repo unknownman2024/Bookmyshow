@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Sales JSON Generator</title>
+    <script>
+        function generateJSON() {
+            let movieName = document.getElementById("movie_name").value;
+            let releaseDate = document.getElementById("release_date").value;
+            let posterUrl = document.getElementById("poster").value;
+            let peakHour = document.getElementById("peak_hour").value;
+            let totalTickets = document.getElementById("total_tickets").value;
+            
+            let salesData = [];
+            let rows = document.querySelectorAll("#sales_data tbody tr");
+            
+            rows.forEach(row => {
+                let daysBefore = row.querySelector(".days").value;
+                let date = row.querySelector(".date").value;
+                let tickets = row.querySelector(".tickets").value;
+                let total = row.querySelector(".total").value;
+                
+                salesData.push({
+                    "days_before_release": parseInt(daysBefore),
+                    "date": date,
+                    "no_of_tickets": tickets + "K",
+                    "total": total + "K"
+                });
+            });
+            
+            let jsonData = {
+                "movies": [
+                    {
+                        "movie_name": movieName,
+                        "release_date": releaseDate,
+                        "poster": posterUrl,
+                        "peak_hour": peakHour,
+                        "ticket_sales": salesData,
+                        "total_tickets": totalTickets + "K"
+                    }
+                ]
+            };
+            
+            document.getElementById("output").textContent = JSON.stringify(jsonData, null, 4);
+        }
+        
+        function addRow() {
+            let table = document.getElementById("sales_data").getElementsByTagName('tbody')[0];
+            let newRow = table.insertRow();
+            newRow.innerHTML = `
+                <td><input type="number" class="days" required></td>
+                <td><input type="date" class="date" required></td>
+                <td><input type="number" class="tickets" required></td>
+                <td><input type="number" class="total" required></td>
+            `;
+        }
+    </script>
+</head>
+<body>
+    <h2>Ticket Sales JSON Generator</h2>
+    <label>Movie Name: <input type="text" id="movie_name" required></label><br>
+    <label>Release Date: <input type="date" id="release_date" required></label><br>
+    <label>Poster URL: <input type="text" id="poster" required></label><br>
+    <label>Peak Hour: <input type="text" id="peak_hour" required></label><br>
+    <label>Total Tickets: <input type="number" id="total_tickets" required></label><br>
+    
+    <h3>Ticket Sales Data</h3>
+    <table id="sales_data" border="1">
+        <thead>
+            <tr>
+                <th>Days Before Release</th>
+                <th>Date</th>
+                <th>No. of Tickets (K)</th>
+                <th>Total (K)</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <button onclick="addRow()">Add Row</button>
+    <button onclick="generateJSON()">Generate JSON</button>
+    
+    <h3>JSON Output</h3>
+    <pre id="output"></pre>
+</body>
+</html>

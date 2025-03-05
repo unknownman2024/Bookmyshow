@@ -20,19 +20,18 @@
             const releaseDate = new Date("2024-08-15"); // Release date
             let ticketSalesBefore = [];
             let ticketSalesAfter = [];
-            
+
             function calculateDaysDifference(dateStr) {
                 let [day, month, year] = dateStr.split(".");
                 let ticketDate = new Date(`20${year}-${month}-${day}`);
-                let diff = Math.round((ticketDate - releaseDate) / (1000 * 60 * 60 * 24));
-                return diff;
+                return Math.round((ticketDate - releaseDate) / (1000 * 60 * 60 * 24));
             }
 
             lines.forEach(line => {
                 let parts = line.split(/\s+/);
                 if (parts.length >= 6) {
                     let dateBefore = parts[1];
-                    let daysBeforeRelease = calculateDaysDifference(dateBefore);
+                    let daysDiffBefore = calculateDaysDifference(dateBefore);
                     let noOfTicketsBefore = parts[3].replace(/\s/g, "");
                     let totalBefore = parts[4].replace(/\s/g, "");
 
@@ -41,13 +40,13 @@
                         no_of_tickets: noOfTicketsBefore,
                         total: totalBefore
                     };
-                    if (daysBeforeRelease > 0) {
-                        ticketBefore.days_before_release = daysBeforeRelease;
+                    if (daysDiffBefore > 0) {
+                        ticketBefore.days_before_release = daysDiffBefore;
                         ticketSalesBefore.push(ticketBefore);
                     }
 
                     let dateAfter = parts[6];
-                    let daysAfterRelease = calculateDaysDifference(dateAfter);
+                    let daysDiffAfter = calculateDaysDifference(dateAfter);
                     let noOfTicketsAfter = parts[8].replace(/\s/g, "");
                     let totalAfter = parts[9].replace(/\s/g, "");
 
@@ -56,8 +55,8 @@
                         no_of_tickets: noOfTicketsAfter,
                         total: totalAfter
                     };
-                    if (daysAfterRelease >= 0) {
-                        ticketAfter.days_after_release = daysAfterRelease;
+                    if (daysDiffAfter >= 0) {
+                        ticketAfter.days_after_release = daysDiffAfter;
                         ticketSalesAfter.push(ticketAfter);
                     }
                 }
@@ -74,7 +73,7 @@
                 peak_hour: "7 PM - 9 PM",
                 ticket_sales: [...ticketSalesBefore, ...ticketSalesAfter]
             };
-            
+
             document.getElementById("output").textContent = JSON.stringify(result, null, 4);
         }
     </script>

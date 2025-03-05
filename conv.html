@@ -3,59 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket Sales JSON Converter</title>
+    <title>Ticket Sales to JSON</title>
 </head>
 <body>
-    <h2>Enter Ticket Sales Data</h2>
-    <textarea id="inputData" rows="10" cols="80"></textarea>
-    <br>
-    <button onclick="convertToJSON()">Convert to JSON</button>
+    <h2>Paste Ticket Sales Data</h2>
+    <textarea id="inputData" rows="10" cols="50"></textarea><br>
+    <label>Movie Name: <input type="text" id="movieName" value="Stree 2"></label><br>
+    <label>Release Date: <input type="date" id="releaseDate" value="2024-08-15"></label><br>
+    <label>Poster URL: <input type="text" id="poster" value="https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/stree-2-et00312345-1737184762.jpg"></label><br>
+    <label>Peak Hour: <input type="text" id="peakHour" value="7 PM - 9 PM"></label><br>
+    <button onclick="convertToJSON()">Convert</button>
     <h3>JSON Output:</h3>
     <pre id="output"></pre>
 
     <script>
         function convertToJSON() {
             const inputText = document.getElementById("inputData").value;
-            const lines = inputText.split("\n").map(line => line.trim()).filter(line => line);
+            const movieName = document.getElementById("movieName").value;
+            const releaseDateStr = document.getElementById("releaseDate").value;
+            const poster = document.getElementById("poster").value;
+            const peakHour = document.getElementById("peakHour").value;
+            const releaseDate = new Date(releaseDateStr);
             
-            let jsonOutput = {
-                movie_name: "Stree 2",
-                release_date: "2024-08-15",
-                poster: "https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/stree-2-et00312345-1737184762.jpg",
-                peak_hour: "7 PM - 9 PM",
-                ticket_sales: []
-            };
+            const lines = inputText.trim().split("\n");
+            const ticketSales = [];
+            
+            for (let line of lines) {
+                const parts = line.split(/\s+/);
+                if (parts.length < 5) continue;
 
-            let releaseDate = new Date("2024-08-15");
-
-            lines.forEach(line => {
-                let parts = line.split(/\s+/); // Split by whitespace
-                if (parts.length >= 5) {
-                    let dayNum = parseInt(parts[0]);
-                    let date = parts[1];
-                    let noOfTickets = parts[3] + parts[4]; // Ensure 'K' stays attached
-                    let total = parts[5] + parts[6]; // Ensure 'K' stays attached
-                    
-                    let entryDate = new Date(date.split(".").reverse().join("-"));
-                    let diffDays = Math.round((entryDate - releaseDate) / (1000 * 60 * 60 * 24));
-
-                    let ticketEntry = {
-                        date: date,
-                        no_of_tickets: noOfTickets,
-                        total: total,
-                    };
-
-                    if (diffDays < 0) {
-                        ticketEntry.days_before_release = Math.abs(diffDays);
-                    } else {
-                        ticketEntry.days_after_release = diffDays + 1;
-                    }
-                    
-                    jsonOutput.ticket_sales.push(ticketEntry);
+                const dateStr = parts[1];
+                const noOfTickets = parts[3].replace(/\s+/g, "");
+                const total = parts[4].replace(/\s+/g, "");
+                
+                const dateParts = dateStr.split(".");
+                const date = new Date(`20${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`);
+                
+                let daysBeforeRelease = null;
+                let daysAfterRelease = null;
+                const diff = Math.round((date - releaseDate) / (1000 * 60 * 60 * 24));
+                
+                if (diff < 0) {
+                    daysBeforeRelease = Math.abs(diff);
+                } else {
+                    daysAfterRelease = diff + 1;
                 }
-            });
+                
+                ticketSales.push({
+                    date: dateStr,
+                    no_of_tickets: noOfTickets,
+                    total: total,
+                    days_before_release: daysBeforeRelease,
+                    days_after_release: daysAfterRelease
+                });
+            }
             
-            document.getElementById("output").textContent = JSON.stringify(jsonOutput, null, 4);
+            const outputJSON = {
+                movie_name: movieName,
+                release_date: releaseDateStr,
+                poster: poster,
+                peak_hour: peakHour,
+                ticket_sales: ticketSales
+            };
+            
+            document.getElementById("output").textContent = JSON.stringify(outputJSON, null, 4);
         }
     </script>
 </body>

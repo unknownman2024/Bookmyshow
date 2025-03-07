@@ -2404,5 +2404,229 @@
         }
       ]
     }
-  ]
+,        {
+            "movie_name": "Marco",
+            "release_date": "20.12.24",
+            "poster": "https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/marco-et00416394-1734329568.jpg",
+            "peak_hour": "0",
+            "ticket_sales": [
+                {
+                    "date": "15.12.24",
+                    "no_of_tickets": "13K",
+                    "total": "13K",
+                    "days_before_release": 5
+                },
+                {
+                    "date": "16.12.24",
+                    "no_of_tickets": "15K",
+                    "total": "28K",
+                    "days_before_release": 4
+                },
+                {
+                    "date": "17.12.24",
+                    "no_of_tickets": "17K",
+                    "total": "45K",
+                    "days_before_release": 3
+                },
+                {
+                    "date": "18.12.24",
+                    "no_of_tickets": "25K",
+                    "total": "70K",
+                    "days_before_release": 2
+                },
+                {
+                    "date": "19.12.24",
+                    "no_of_tickets": "46K",
+                    "total": "117K",
+                    "days_before_release": 1
+                },
+                {
+                    "date": "20.12.24",
+                    "no_of_tickets": "186K",
+                    "total": "302K",
+                    "days_after_release": 1
+                },
+                {
+                    "date": "21.12.24",
+                    "no_of_tickets": "196K",
+                    "total": "498K",
+                    "days_after_release": 2
+                },
+                {
+                    "date": "22.12.24",
+                    "no_of_tickets": "154K",
+                    "total": "653K",
+                    "days_after_release": 3
+                },
+                {
+                    "date": "23.12.24",
+                    "no_of_tickets": "132K",
+                    "total": "784K",
+                    "days_after_release": 4
+                },
+                {
+                    "date": "24.12.24",
+                    "no_of_tickets": "111K",
+                    "total": "896K",
+                    "days_after_release": 5
+                },
+                {
+                    "date": "25.12.24",
+                    "no_of_tickets": "102K",
+                    "total": "997K",
+                    "days_after_release": 6
+                },
+                {
+                    "date": "26.12.24",
+                    "no_of_tickets": "78K",
+                    "total": "1075K",
+                    "days_after_release": 7
+                },
+                {
+                    "date": "27.12.24",
+                    "no_of_tickets": "73K",
+                    "total": "1148K",
+                    "days_after_release": 8
+                },
+                {
+                    "date": "28.12.24",
+                    "no_of_tickets": "78K",
+                    "total": "1226K",
+                    "days_after_release": 9
+                },
+                {
+                    "date": "29.12.24",
+                    "no_of_tickets": "69K",
+                    "total": "1295K",
+                    "days_after_release": 10
+                },
+                {
+                    "date": "30.12.24",
+                    "no_of_tickets": "38K",
+                    "total": "1333K",
+                    "days_after_release": 11
+                },
+                {
+                    "date": "31.12.24",
+                    "no_of_tickets": "35K",
+                    "total": "1367K",
+                    "days_after_release": 12
+                },
+                {
+                    "date": "01.01.25",
+                    "no_of_tickets": "72K",
+                    "total": "1439K",
+                    "days_after_release": 13
+                },
+                {
+                    "date": "02.01.25",
+                    "no_of_tickets": "39K",
+                    "total": "1478K",
+                    "days_after_release": 14
+                },
+                {
+                    "date": "03.01.25",
+                    "no_of_tickets": "40K",
+                    "total": "1518K",
+                    "days_after_release": 15
+                },
+                {
+                    "date": "04.01.25",
+                    "no_of_tickets": "57K",
+                    "total": "1575K",
+                    "days_after_release": 16
+                },
+                {
+                    "date": "05.01.25",
+                    "no_of_tickets": "54K",
+                    "total": "1629K",
+                    "days_after_release": 17
+                },
+                {
+                    "date": "06.01.25",
+                    "no_of_tickets": "25K",
+                    "total": "1653K",
+                    "days_after_release": 18
+                },
+                {
+                    "date": "07.01.25",
+                    "no_of_tickets": "24K",
+                    "total": "1677K",
+                    "days_after_release": 19
+                },
+                {
+                    "date": "08.01.25",
+                    "no_of_tickets": "23K",
+                    "total": "1699K",
+                    "days_after_release": 20
+                },
+                {
+                    "date": "09.01.25",
+                    "no_of_tickets": "18K",
+                    "total": "1718K",
+                    "days_after_release": 21
+                },
+                {
+                    "date": "10.01.25",
+                    "no_of_tickets": "11K",
+                    "total": "1729K",
+                    "days_after_release": 22
+                },
+                {
+                    "date": "11.01.25",
+                    "no_of_tickets": "17K",
+                    "total": "1746K",
+                    "days_after_release": 23
+                },
+                {
+                    "date": "12.01.25",
+                    "no_of_tickets": "14K",
+                    "total": "1760K",
+                    "days_after_release": 24
+                },
+                {
+                    "date": "13.01.25",
+                    "no_of_tickets": "8K",
+                    "total": "1768K",
+                    "days_after_release": 25
+                },
+                {
+                    "date": "14.01.25",
+                    "no_of_tickets": "10K",
+                    "total": "1778K",
+                    "days_after_release": 26
+                },
+                {
+                    "date": "15.01.25",
+                    "no_of_tickets": "6K",
+                    "total": "1784K",
+                    "days_after_release": 27
+                },
+                {
+                    "date": "16.01.25",
+                    "no_of_tickets": "6K",
+                    "total": "1790K",
+                    "days_after_release": 28
+                },
+                {
+                    "date": "17.01.25",
+                    "no_of_tickets": "7K",
+                    "total": "1797K",
+                    "days_after_release": 29
+                },
+                {
+                    "date": "18.01.25",
+                    "no_of_tickets": "6K",
+                    "total": "1803K",
+                    "days_after_release": 30
+                },
+                {
+                    "date": "19.01.25",
+                    "no_of_tickets": "6K",
+                    "total": "1809K",
+                    "days_after_release": 31
+                }
+            ]
+        }
+    ]
 }
